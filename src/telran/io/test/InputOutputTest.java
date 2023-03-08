@@ -76,21 +76,14 @@ class InputOutputTest {
 	}
 
 	void printDirectoryFiles(String strPath, int maxLevel) throws IOException {
-		Path path = Path.of(strPath);
-		if (path.toFile().exists()) {
-			printDirectoryFiles(path, maxLevel, 0);
+		Path directory = Path.of(strPath);
+		if (Files.isDirectory(directory)) {
+			directory = directory.toAbsolutePath().normalize();
+			int directoryLevel = directory.getNameCount();
+			Files.walk(directory, maxLevel).forEach(node -> {
+				System.out.printf("%s%s - %s\n", " ".repeat((node.getNameCount() - directoryLevel) * NUMBER_SYMBOLS_PER_LEVEL),
+						node.getFileName(), Files.isDirectory(node) ? "dir" : "file");
+			});
 		}
-	}
-
-	private void printDirectoryFiles(Path path, int maxLevel, int printingLevel) throws IOException {
-		int length = Files.walk(path, FileVisitOption.FOLLOW_LINKS).map(Path::toFile).filter(File::isDirectory)
-				.toArray().length;
-		if (maxLevel < 1 || maxLevel > length) {
-			maxLevel = length;
-		}
-		Files.walk(path, maxLevel, FileVisitOption.FOLLOW_LINKS).forEach(p -> {
-			printing(p.toFile(), p.toFile().isFile() ? printingLevel + NUMBER_SYMBOLS_PER_LEVEL : printingLevel);
-		});
 	}
 }
-
