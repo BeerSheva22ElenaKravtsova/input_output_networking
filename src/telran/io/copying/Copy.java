@@ -44,8 +44,6 @@ public abstract class Copy {
 		}
 		if (overwrite == false && new File(destFilePath).exists()) {
 			throw new Exception("Destination File cannot be overwritten");
-		} else {
-			Files.deleteIfExists(Path.of(destFilePath));
 		}
 		long fileSize = copy();
 		long copyTime = getCopyTime(startTime);

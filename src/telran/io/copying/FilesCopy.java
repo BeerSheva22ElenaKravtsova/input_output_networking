@@ -3,6 +3,7 @@ package telran.io.copying;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class FilesCopy extends Copy {
 	
@@ -20,7 +21,7 @@ public class FilesCopy extends Copy {
 
 	public long copy() {
 		try {
-			Files.copy(Path.of(srcFilePath), Path.of(destFilePath));
+			Files.copy(Path.of(srcFilePath), Path.of(destFilePath), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

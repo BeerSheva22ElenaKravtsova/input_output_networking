@@ -14,16 +14,12 @@ public class FilesCopyBuilder {
 		if (length < 2) {
 			throw new Exception("Wrong number of arguments");
 		}
-		switch (type) {
-		case "TransferCopy":
-			return new TransferCopy(args[0], args[1]);
-		case "BufferCopy":
-			return new BufferCopy(args[0], args[1]);
-		case "FilesCopy":
-			return new FilesCopy(args[0], args[1]);
-        default:
-            throw new IllegalArgumentException("Unsupported copying type: " + type);
-    }
-		
+		return switch (type) {
+		case "TransferCopy" -> new TransferCopy(args[0], args[1]);
+		case "BufferCopy" -> new BufferCopy(args[0], args[1]);
+		case "FilesCopy" -> new FilesCopy(args[0], args[1]);
+		default -> throw new IllegalArgumentException("Unsupported copying type: " + type);
+		};
+
 	}
 }
